@@ -29,6 +29,12 @@ export default function SearchComp({ businesses, params }: SearchCompProps) {
       if (!query || query.length === 0) return;
       const searchParams = new URLSearchParams();
       searchParams.delete("query");
+
+      if (params) {
+        Object.keys(params).forEach((key) => {
+          searchParams.append(key, params[key] as string);
+        });
+      }
       searchParams.append("query", query);
       const req = await fetch(
         `http://localhost:5005/api/businesses/search?${searchParams.toString()}`
